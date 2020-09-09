@@ -2,9 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ExpensesTrackingSystem.API.DbContexts;
+using ExpensesTrackingSystem.API.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Formatters;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -24,7 +28,17 @@ namespace ExpensesTrackingSystem.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddControllers(setupAction => {
+                setupAction.ReturnHttpNotAcceptable = true;
+                
+            }).AddXmlDataContractSerializerFormatters();
+
+            services.AddScoped<ICurrencyRepository, CurrencyRepository>();
+            services.AddScoped<IUsersRepository, UsersRepository>();
+            services.AddDbContext<ExpensesTrackingContext>(options =>
+            {
+                options.UseSqlServer(@"Server=.\SQLEXPRESS;Database=ExpensesDB;Trusted_Connection=True;");
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
