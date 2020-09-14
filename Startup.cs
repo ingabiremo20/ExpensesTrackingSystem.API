@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using ExpensesTrackingSystem.API.DbContexts;
 using ExpensesTrackingSystem.API.Services;
 using Microsoft.AspNetCore.Builder;
@@ -32,7 +33,7 @@ namespace ExpensesTrackingSystem.API
                 setupAction.ReturnHttpNotAcceptable = true;
                 
             }).AddXmlDataContractSerializerFormatters();
-
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddScoped<ICurrencyRepository, CurrencyRepository>();
             services.AddScoped<IUsersRepository, UsersRepository>();
             services.AddDbContext<ExpensesTrackingContext>(options =>

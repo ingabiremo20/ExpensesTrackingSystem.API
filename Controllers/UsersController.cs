@@ -1,4 +1,5 @@
-﻿using ExpensesTrackingSystem.API.Entities;
+﻿using AutoMapper;
+using ExpensesTrackingSystem.API.Entities;
 using ExpensesTrackingSystem.API.Helpers;
 using ExpensesTrackingSystem.API.Models;
 using ExpensesTrackingSystem.API.Services;
@@ -16,30 +17,34 @@ namespace ExpensesTrackingSystem.API.Controllers
     {
 
         private readonly IUsersRepository _usersRepository;
-        public UsersController(IUsersRepository usersRepository)
+        private readonly IMapper _mapper;
+        public UsersController(IUsersRepository usersRepository,
+            IMapper mapper)
         {
             _usersRepository = usersRepository ??
                 throw new ArgumentNullException(nameof(usersRepository));
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
         [HttpGet()]
-        public IActionResult GetAllUsers()
+        public ActionResult<IEnumerable<UsersDto>> GetAllUsers()
         {
             var usersList = _usersRepository.GetAllUsers();
-            var users = new List<UsersDto>();
-            foreach (var user in usersList)
-            {
-                users.Add(new UsersDto()
-                {
-                    UserId=user.UserId,
-                    UserName=user.UserName,
-                    PassWord=user.PassWord,
-                    Name=$"{user.FirstName} {user.LastName}",
-                    Age=user.DateIOfBirth.GetCurrentAge(),
-                    Currencies=user.Currencies
-                });
-            }
-            return Ok(users);
+            //var users = new List<UsersDto>();
+            
+            //foreach (var user in usersList)
+            //{
+            //    users.Add(new UsersDto()
+            //    {
+            //        UserId=user.UserId,
+            //        UserName=user.UserName,
+            //        PassWord=user.PassWord,
+            //        Name=$"{user.FirstName} {user.LastName}",
+            //        Age=user.DateIOfBirth.GetCurrentAge(),
+            //        Currencies=user.Currencies
+            //    });
+            //}
+            return Ok(_mapper.Map<IEnumerable<UsersDto>>(usersList));
 
         }
         [HttpGet("{UserId}")]
@@ -51,8 +56,8 @@ namespace ExpensesTrackingSystem.API.Controllers
             {
                 return NotFound();
             }
-            var singleUser = _usersRepository.GetUser(UserId);
-            return Ok(singleUser);
+            //var singleUser = _usersRepository.GetUser(UserId);
+            return Ok(_mapper.Map<UsersDto>(GetSingleUser));
         }
     }
 }
