@@ -28,22 +28,8 @@ namespace ExpensesTrackingSystem.API.Controllers
 
         [HttpGet()]
         public ActionResult<IEnumerable<UsersDto>> GetAllUsers()
-        {
-            var usersList = _usersRepository.GetAllUsers();
-            //var users = new List<UsersDto>();
-            
-            //foreach (var user in usersList)
-            //{
-            //    users.Add(new UsersDto()
-            //    {
-            //        UserId=user.UserId,
-            //        UserName=user.UserName,
-            //        PassWord=user.PassWord,
-            //        Name=$"{user.FirstName} {user.LastName}",
-            //        Age=user.DateIOfBirth.GetCurrentAge(),
-            //        Currencies=user.Currencies
-            //    });
-            //}
+        {            var usersList = _usersRepository.GetAllUsers();
+         
             return Ok(_mapper.Map<IEnumerable<UsersDto>>(usersList));
 
         }
@@ -55,8 +41,7 @@ namespace ExpensesTrackingSystem.API.Controllers
             if (GetSingleUser == null)
             {
                 return NotFound();
-            }
-            //var singleUser = _usersRepository.GetUser(UserId);
+            }           
             return Ok(_mapper.Map<UsersDto>(GetSingleUser));
         }
     }

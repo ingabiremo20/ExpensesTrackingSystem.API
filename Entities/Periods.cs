@@ -9,7 +9,7 @@ namespace ExpensesTrackingSystem.API.Entities
     public class Periods
     {
         [Key]
-        public int PeriodID { get; set; }
+        public int Id { get; set; }
         public decimal Amount
         {
             get; set;

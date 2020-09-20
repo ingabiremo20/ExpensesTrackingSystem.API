@@ -11,7 +11,7 @@ namespace ExpensesTrackingSystem.API.Entities
     public class Users
     {
         [Key]
-        public int UserId { get; set; }
+        public int Id { get; set; }
         [Required]
         [MaxLength(50)]
         public string UserName { get; set; }
@@ -28,8 +28,9 @@ namespace ExpensesTrackingSystem.API.Entities
         public string LastName { get; set; }
         [Required]
         public DateTimeOffset DateIOfBirth { get; set; }
-        [ForeignKey("Id")]
+        [ForeignKey("CurrencyId")]
         public Currency Currencies { get; set; }
-       
+        public int CurrencyId { get; set; }
+
     }
 }

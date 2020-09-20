@@ -12,16 +12,20 @@ namespace ExpensesTrackingSystem.API.Entities
     public class Expenses
     {
        [Key]
-        public int ExpenseID { get; set; }
+        public int Id { get; set; }
 
-        [ForeignKey("UserId")]
-        public Users Users { get; set; }
+       
         [ForeignKey("CategoryId")]
         public Categories Categories { get; set; }
-        
+        public int CategoryId { get; set; }
+
         public decimal ExpenseAmount { get; set; }
         public string Description { get; set; }
         public DateTimeOffset DateCreated { get; set; }
         public DateTimeOffset DateSpent{ get; set; }
+
+        [ForeignKey("UserId")]
+        public Users Users { get; set; }
+        public int UserId { get; set; }
     }
 }

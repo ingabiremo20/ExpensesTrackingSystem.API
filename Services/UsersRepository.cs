@@ -25,7 +25,7 @@ namespace ExpensesTrackingSystem.API.Services
 
         public Users GetUser(int UserId)
         {
-            return _context.Users.Include(c=>c.Currencies).FirstOrDefault(x => x.UserId == UserId);
+            return _context.Users.Include(c=>c.Currencies).FirstOrDefault(x => x.Id == UserId);
         }
         public bool UserExists(int UserId)
         {
@@ -34,7 +34,7 @@ namespace ExpensesTrackingSystem.API.Services
                 throw new ArgumentNullException(nameof(UserId));
             }
 
-            return _context.Users.Any(a => a.UserId == UserId);
+            return _context.Users.Any(a => a.Id == UserId);
         }
     }
 }

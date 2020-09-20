@@ -36,6 +36,7 @@ namespace ExpensesTrackingSystem.API
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddScoped<ICurrencyRepository, CurrencyRepository>();
             services.AddScoped<IUsersRepository, UsersRepository>();
+            services.AddScoped<IExpensesRepository, ExpensesRepository>();
             services.AddDbContext<ExpensesTrackingContext>(options =>
             {
                 options.UseSqlServer(@"Server=.\SQLEXPRESS;Database=ExpensesDB;Trusted_Connection=True;");

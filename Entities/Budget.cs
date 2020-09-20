@@ -10,7 +10,7 @@ namespace ExpensesTrackingSystem.API.Entities
     public class Budget
     {
         [Key]
-        public int BudgetID { get; set; }
+        public int Id { get; set; }
         public decimal Amount { get; set; }
         [ForeignKey("UserId")]
         public Users Users { get; set; }
