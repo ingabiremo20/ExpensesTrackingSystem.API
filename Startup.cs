@@ -7,6 +7,7 @@ using ExpensesTrackingSystem.API.DbContexts;
 using ExpensesTrackingSystem.API.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.EntityFrameworkCore;
@@ -49,6 +50,18 @@ namespace ExpensesTrackingSystem.API
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+            }
+            else
+            {
+                app.UseExceptionHandler(appBuilder =>
+                {
+                    appBuilder.Run(async context =>
+                    {
+                        context.Response.StatusCode = 500;
+                        await context.Response.WriteAsync("An Unexpected System Issue Happened. Try again later");
+                    });
+                
+                });
             }
 
             app.UseRouting();
