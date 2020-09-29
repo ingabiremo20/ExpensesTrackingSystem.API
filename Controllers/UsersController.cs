@@ -2,6 +2,7 @@
 using ExpensesTrackingSystem.API.Entities;
 using ExpensesTrackingSystem.API.Helpers;
 using ExpensesTrackingSystem.API.Models;
+using ExpensesTrackingSystem.API.ResourceParameters;
 using ExpensesTrackingSystem.API.Services;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -27,8 +28,10 @@ namespace ExpensesTrackingSystem.API.Controllers
         }
 
         [HttpGet()]
-        public ActionResult<IEnumerable<UsersDto>> GetAllUsers()
-        {            var usersList = _usersRepository.GetAllUsers();
+        [HttpHead]
+        public ActionResult<IEnumerable<UsersDto>> GetAllUsers(
+        [FromQuery]  UsersResourceParameters usersResourceParameters)
+        {            var usersList = _usersRepository.GetAllUsers(usersResourceParameters);
          
             return Ok(_mapper.Map<IEnumerable<UsersDto>>(usersList));
 
