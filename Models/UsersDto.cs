@@ -9,7 +9,7 @@ namespace ExpensesTrackingSystem.API.Models
 {
     public class UsersDto
     {
-        public int UserId { get; set; }
+        public int Id { get; set; }
         public string UserName { get; set; }
         public string PassWord { get; set; }    
         public string Name { get; set; }     
