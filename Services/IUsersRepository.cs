@@ -1,4 +1,5 @@
 ﻿using ExpensesTrackingSystem.API.Entities;
+using ExpensesTrackingSystem.API.ResourceParameters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,7 @@ namespace ExpensesTrackingSystem.API.Services
     public interface IUsersRepository
     {
         IEnumerable<Users> GetAllUsers();
+        public IEnumerable<Users> GetAllUsers(UsersResourceParameters usersResourceParameters);
         Users GetUser(int UserId);
     }
 }
