@@ -64,5 +64,18 @@ namespace ExpensesTrackingSystem.API.Services
 
             return _context.Users.Any(a => a.Id == UserId);
         }
+        public void AddUser(Users user)
+        {
+            if (user == null)
+            {
+                throw new ArgumentNullException(nameof(user));
+            }
+            _context.Users.Add(user);
+        }
+        public bool Save()
+        {
+            return (_context.SaveChanges() >= 0);
+        }
+
     }
 }

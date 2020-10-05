@@ -13,5 +13,7 @@ namespace ExpensesTrackingSystem.API.Services
         bool ExpenseExists(int Id);
         bool UserExists(int Id);
         Expenses GetSingleUserExpense(int UserId, int ExpenseId);
+        void AddExpense(int userId, Expenses expense);
+        public bool Save();
     }
 }

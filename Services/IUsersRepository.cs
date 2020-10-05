@@ -12,5 +12,7 @@ namespace ExpensesTrackingSystem.API.Services
         IEnumerable<Users> GetAllUsers();
         public IEnumerable<Users> GetAllUsers(UsersResourceParameters usersResourceParameters);
         Users GetUser(int UserId);
+        void AddUser(Users user);
+        public bool Save();
     }
 }

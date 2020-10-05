@@ -11,6 +11,7 @@ namespace ExpensesTrackingSystem.API.Profiles
         public ExpensesProfile()
         {
             CreateMap<Entities.Expenses, Models.ExpenseDto>();
+            CreateMap<Models.CreateExpenseDto, Entities.Expenses>();
         }
        
     }

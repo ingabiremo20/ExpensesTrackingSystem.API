@@ -36,7 +36,7 @@ namespace ExpensesTrackingSystem.API.Controllers
             return Ok(_mapper.Map<IEnumerable<UsersDto>>(usersList));
 
         }
-        [HttpGet("{UserId}")]
+        [HttpGet("{UserId}", Name ="GetUser")]
         public IActionResult GetUser(int UserId)
         {
             var GetSingleUser = _usersRepository.GetUser(UserId);
@@ -46,6 +46,18 @@ namespace ExpensesTrackingSystem.API.Controllers
                 return NotFound();
             }           
             return Ok(_mapper.Map<UsersDto>(GetSingleUser));
+        }
+        [HttpPost]
+        public ActionResult<UsersDto> RegisterUser(CreateUserDto user)
+        {
+            var userEntity = _mapper.Map<Users>(user);
+            _usersRepository.AddUser(userEntity);
+            _usersRepository.Save();
+          
+            var userToReturn = _mapper.Map<UsersDto>(userEntity);
+            var singleUser = _usersRepository.GetUser(userToReturn.Id);           
+            return Ok(_mapper.Map<UsersDto>(singleUser));
+
         }
     }
 }

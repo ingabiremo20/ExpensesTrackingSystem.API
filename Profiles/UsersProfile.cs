@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using ExpensesTrackingSystem.API.Helpers;
+using ExpensesTrackingSystem.API.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +17,9 @@ namespace ExpensesTrackingSystem.API.Profiles
                 opt => opt.MapFrom(src => $"{src.FirstName} {src.LastName}"))
                 .ForMember(
                 dest => dest.Age,
-                opt => opt.MapFrom(src => src.DateIOfBirth.GetCurrentAge()));
+                opt => opt.MapFrom(src => src.DateOfBirth.GetCurrentAge()));
+
+            CreateMap<CreateUserDto, Entities.Users>();
         }
     }
 }
