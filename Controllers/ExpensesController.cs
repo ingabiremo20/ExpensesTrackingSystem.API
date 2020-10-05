@@ -23,28 +23,48 @@ namespace ExpensesTrackingSystem.API.Controllers
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
         [HttpGet]
-        public ActionResult<IEnumerable<ExpenseDto>> GetAllUserExpenses(int UserId)
+        public ActionResult<IEnumerable<ExpenseDto>> GetAllUserExpenses(int userId)
         {
-            if (!_expensesRepository.UserExists(UserId))
+            if (!_expensesRepository.UserExists(userId))
             {
                 return NotFound();
             }
-            var allUserExpenses = _expensesRepository.GetAllUserExpenses(UserId);
+            var allUserExpenses = _expensesRepository.GetAllUserExpenses(userId);
             return Ok(_mapper.Map<IEnumerable<ExpenseDto>>(allUserExpenses));
         }
-        [HttpGet("{ExpenseId}")]
-        public ActionResult<IEnumerable<ExpenseDto>> GetSingleUserExpense(int UserId, int ExpenseId)
+        [HttpGet("{expenseId}", Name = "GetSingleUserExpense")]
+        public ActionResult<IEnumerable<ExpenseDto>> GetSingleUserExpense(int userId, int expenseId)
         {
-            if (!_expensesRepository.UserExists(UserId))
+            if (!_expensesRepository.UserExists(userId))
             {
                 return NotFound();
             }
-            if (!_expensesRepository.ExpenseExists(ExpenseId))
+            if (!_expensesRepository.ExpenseExists(expenseId))
             {
                 return NotFound();
             }
-            var singleUserExpense = _expensesRepository.GetSingleUserExpense(UserId, ExpenseId);
+            var singleUserExpense = _expensesRepository.GetSingleUserExpense(userId, expenseId);
             return Ok(_mapper.Map<ExpenseDto>(singleUserExpense));
+        }
+
+        [HttpPost]
+        public ActionResult<IEnumerable<ExpenseDto>> CreateExpenseForUser(int userId, IEnumerable<CreateExpenseDto> expenseCollection)
+        {
+            if (!_expensesRepository.UserExists(userId))
+            {
+                return NotFound();
+            }
+            var expenseEntities = _mapper.Map<IEnumerable<Entities.Expenses>>(expenseCollection);
+            foreach(var expense in expenseEntities)
+            {
+                _expensesRepository.AddExpense(userId, expense);
+            }
+           
+            _expensesRepository.Save();
+            var expenseToReturn = _mapper.Map<IEnumerable <ExpenseDto>>(expenseEntities);
+              return CreatedAtRoute("GetSingleUserExpense", 
+              new { userId = userId, expenseId = expenseToReturn.Select(a=>a.Id) }, expenseToReturn);
+            
         }
     }
 }

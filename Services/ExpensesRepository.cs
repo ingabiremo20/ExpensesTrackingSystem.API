@@ -17,11 +17,6 @@ namespace ExpensesTrackingSystem.API.Services
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        //public bool ExpenseExists(int Id)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
         public IEnumerable<Expenses> GetAllUserExpenses(int UserId)
         {
 
@@ -30,15 +25,9 @@ namespace ExpensesTrackingSystem.API.Services
                        .OrderBy(c => c.DateCreated).ToList();
         }
 
-        //public Expenses GetUserExpense(int ExpenseID)
-        //{
-        //    throw new NotImplementedException();
-        //}
 
        public Expenses GetSingleUserExpense(int UserId, int ExpenseId)
         {
-            //return _context.Expenses
-            //           .Where(c => c.Id == ExpenseId && c.UserId == UserId).FirstOrDefault();
             return _context.Expenses
              .Where(c => c.UserId == UserId && c.Id == ExpenseId).FirstOrDefault();
 
@@ -61,6 +50,26 @@ namespace ExpensesTrackingSystem.API.Services
             }
 
             return _context.Expenses.Any(a => a.Id == ExpenseId);
+        }
+
+        public void AddExpense(int  userId, Expenses expense)
+        {
+            if (userId.Equals(null) )
+            {
+                throw new ArgumentNullException(nameof(userId));
+            }
+
+            if (expense == null)
+            {
+                throw new ArgumentNullException(nameof(expense));
+            }
+            expense.UserId = userId;
+            _context.Expenses.Add(expense);
+        }
+
+        public bool Save()
+        {
+            return (_context.SaveChanges() >= 0);
         }
     }
 }
